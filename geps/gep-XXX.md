@@ -43,5 +43,8 @@ direction)
 
 ## References
 
-(Add any additional document links. Again, we should try to avoid
-too much content not in version control to avoid broken links)
+This concept was [briefly touched on][993] in an experimental PR (that
+ultimately ended up being closed), due to a use case at Kong which is currently
+handled via annotation.
+
+[993]:https://github.com/kubernetes-sigs/gateway-api/pull/993#issuecomment-1013321918
