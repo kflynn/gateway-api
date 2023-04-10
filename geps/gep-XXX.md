@@ -7,11 +7,16 @@
 
 ## TLDR
 
-When using an HTTPRoute, TCPRoute, etc., the implementor of the routing logic
-(the _router_) needs to connect to one of the route's `backendRefs`. The user
-creating the xRoute resource should be able to choose whether this connection
-is made to the ClusterIP of the Service ("Service routing") or directly to an
-endpoint IP ("endpoint routing").
+When using `BackendRefs` in routes (e.g. `HTTPRoute, `TCPRoute`, e.t.c.) it's
+possible for the referent object to insinuate an additional choice for routing
+logic: that is to say it may be a question as to whether the `Gateway` itself
+should resolve the `BackendRef` (e.g. in the case of `Service` by collecting
+the `Endpoints` and using them directly) or if it would hand that choice off to
+some underlying implementation (e.g. `kube-proxy`, or a service mesh).
+
+The purpose of this GEP is to propose API specification that makes it possible
+for Jane (the developer) to explicitly select how inbound traffic to her
+application will be routed to her application.
 
 ## Goals
 
@@ -38,5 +43,8 @@ direction)
 
 ## References
 
-(Add any additional document links. Again, we should try to avoid
-too much content not in version control to avoid broken links)
+This concept was [briefly touched on][993] in an experimental PR (that
+ultimately ended up being closed), due to a use case at Kong which is currently
+handled via annotation.
+
+[993]:https://github.com/kubernetes-sigs/gateway-api/pull/993#issuecomment-1013321918

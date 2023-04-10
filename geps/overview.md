@@ -14,6 +14,7 @@ process for the main Kubernetes project:
 This diagram shows the state diagram of the GEP process at a high level, but the details are below.
 
 <div align="center">
+  
 ```mermaid
 flowchart TD
     D([Discuss with<br />the community]) --> C
@@ -25,6 +26,7 @@ flowchart TD
     Experimental -->|Supported in<br />multiple implementations<br />+ Conformance tests| Standard
     Standard -->|Entire change is GA or implemented| Completed
 ```
+
 </div>
 
 ### 1. Discuss with the community
@@ -122,7 +124,7 @@ Although less common, some GEPs may end up in one of the following states:
 
 ## Format
 
-GEPs should match the format of the template found in [GEP-696](/geps/gep-696).
+GEPs should match the format of the template found in [GEP-696](/geps/gep-696.md).
 
 ## Out of scope
 
