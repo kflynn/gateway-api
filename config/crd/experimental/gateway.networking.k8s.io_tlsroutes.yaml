@@ -2,8 +2,8 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    api-approved.kubernetes.io: https://github.com/kubernetes-sigs/gateway-api/pull/1538
-    gateway.networking.k8s.io/bundle-version: v0.6.2
+    api-approved.kubernetes.io: https://github.com/kubernetes-sigs/gateway-api/pull/1923
+    gateway.networking.k8s.io/bundle-version: v0.7.0-rc1
     gateway.networking.k8s.io/channel: experimental
   creationTimestamp: null
   name: tlsroutes.gateway.networking.k8s.io
@@ -228,8 +228,9 @@ spec:
                         code. Request rejections must respect weight; if an invalid
                         backend is requested to have 80% of requests, then 80% of
                         requests must be rejected instead. \n Support: Core for Kubernetes
-                        Service \n Support: Implementation-specific for any other
-                        resource \n Support for weight: Extended"
+                        Service \n Support: Extended for Kubernetes ServiceImport
+                        \n Support: Implementation-specific for any other resource
+                        \n Support for weight: Extended"
                       items:
                         description: "BackendRef defines how a Route should forward
                           a request to a Kubernetes resource. \n Note that when a
