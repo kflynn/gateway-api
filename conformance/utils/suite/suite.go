@@ -17,6 +17,7 @@ limitations under the License.
 package suite
 
 import (
+	"embed"
 	"testing"
 
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -24,6 +25,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"sigs.k8s.io/gateway-api/apis/v1beta1"
+	"sigs.k8s.io/gateway-api/conformance"
 	"sigs.k8s.io/gateway-api/conformance/utils/config"
 	"sigs.k8s.io/gateway-api/conformance/utils/kubernetes"
 	"sigs.k8s.io/gateway-api/conformance/utils/roundtripper"
@@ -46,6 +48,7 @@ type ConformanceTestSuite struct {
 	SupportedFeatures sets.Set[SupportedFeature]
 	TimeoutConfig     config.TimeoutConfig
 	SkipTests         sets.Set[string]
+	FS                embed.FS
 }
 
 // Options can be used to initialize a ConformanceTestSuite.
@@ -71,11 +74,14 @@ type Options struct {
 	// resources such as Gateways should be cleaned up after the run.
 	CleanupBaseResources       bool
 	SupportedFeatures          sets.Set[SupportedFeature]
+	ExemptFeatures             sets.Set[SupportedFeature]
 	EnableAllSupportedFeatures bool
 	TimeoutConfig              config.TimeoutConfig
 	// SkipTests contains all the tests not to be run and can be used to opt out
 	// of specific tests
 	SkipTests []string
+
+	FS *embed.FS
 }
 
 // New returns a new ConformanceTestSuite.
@@ -97,6 +103,14 @@ func New(s Options) *ConformanceTestSuite {
 		}
 	}
 
+	for feature := range s.ExemptFeatures {
+		s.SupportedFeatures.Delete(feature)
+	}
+
+	if s.FS == nil {
+		s.FS = &conformance.Manifests
+	}
+
 	suite := &ConformanceTestSuite{
 		Client:           s.Client,
 		RESTClient:       s.RESTClient,
@@ -114,6 +128,7 @@ func New(s Options) *ConformanceTestSuite {
 		SupportedFeatures: s.SupportedFeatures,
 		TimeoutConfig:     s.TimeoutConfig,
 		SkipTests:         sets.New(s.SkipTests...),
+		FS:                *s.FS,
 	}
 
 	// apply defaults
@@ -130,13 +145,14 @@ func New(s Options) *ConformanceTestSuite {
 // Setup ensures the base resources required for conformance tests are installed
 // in the cluster. It also ensures that all relevant resources are ready.
 func (suite *ConformanceTestSuite) Setup(t *testing.T) {
+	t.Logf("Test Setup: Ensuring GatewayClass has been accepted")
+	suite.ControllerName = kubernetes.GWCMustHaveAcceptedConditionTrue(t, suite.Client, suite.TimeoutConfig, suite.GatewayClassName)
+
+	suite.Applier.GatewayClass = suite.GatewayClassName
+	suite.Applier.ControllerName = suite.ControllerName
+	suite.Applier.FS = suite.FS
+
 	if suite.SupportedFeatures.Has(SupportGateway) {
-		t.Logf("Test Setup: Ensuring GatewayClass has been accepted")
-		suite.ControllerName = kubernetes.GWCMustHaveAcceptedConditionTrue(t, suite.Client, suite.TimeoutConfig, suite.GatewayClassName)
-
-		suite.Applier.GatewayClass = suite.GatewayClassName
-		suite.Applier.ControllerName = suite.ControllerName
-
 		t.Logf("Test Setup: Applying base manifests")
 		suite.Applier.MustApplyWithCleanup(t, suite.Client, suite.TimeoutConfig, suite.BaseManifests, suite.Cleanup)
 

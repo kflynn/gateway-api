@@ -235,6 +235,8 @@ type HTTPRouteRule struct {
 	//
 	// Support: Core for Kubernetes Service
 	//
+	// Support: Extended for Kubernetes ServiceImport
+	//
 	// Support: Implementation-specific for any other resource
 	//
 	// Support for weight: Core
@@ -868,8 +870,7 @@ type HTTPRequestRedirectFilter struct {
 
 	// Hostname is the hostname to be used in the value of the `Location`
 	// header in the response.
-	// When empty, the hostname in the `Host` header
-	// of the request is used.
+	// When empty, the hostname in the `Host` header of the request is used.
 	//
 	// Support: Core
 	//
