@@ -18,13 +18,39 @@ The purpose of this GEP is to propose API specification that makes it possible
 for Jane (the developer) to explicitly select how inbound traffic to her
 application will be routed to her application.
 
+## Definitions
+
+- Jane: app dev
+
+- Julian: ops counterpart of Jane
+
+- Jasmine: probably unnecessary here, but who knows
+
 ## Goals
 
-(Primary goals of this proposal.)
+- Describe how Jane, Julian, etc. can *explicitly* select how traffic coming
+  into the cluster should be routed to workload backends. (Currently, each
+  implementation handles this in its own way, which may include a way to
+  explicitly choose between routing modes, but may not. We want the Gateway
+  API to provide a standardized mechanism for making this choice.)
 
-## Non-Goals
+- ?? should we have a goal around separation of concerns between Jane & Julian
+  & Jasmine?
 
-(What is out of scope for this proposal.)
+- ?? When, if ever, should Jane (need to) care about whether or not her
+  routing is going to go through a mesh?
+
+  - Flynn: I would argue that the Correct Answer™ is "never", but... it's a
+    lovely question -- or, at least, Jane shouldn't always need to be aware.
+    She might _choose_ to be aware in some cases...
+
+  - Shane: Might we need to add some optionality to which role goes with which
+    functionality?
+
+- Shane: open question in my head right now: is it reasonable to have an
+  officially-sanctioned spec for this kind of policy that can both be
+  associated with an xRoute and as a policy attachment that can be associated
+  with GatewayClass, Gateway, xRoute, etc.?
 
 ## Introduction
 
