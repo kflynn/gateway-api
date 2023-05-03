@@ -11,8 +11,8 @@ When using `BackendRefs` in routes (e.g. `HTTPRoute`, `TCPRoute`, e.t.c.) it's
 possible for the referent object to insinuate an additional choice for routing
 logic: that is to say it may be a question as to whether the `Gateway` itself
 should resolve the `BackendRef` (e.g. in the case of `Service` by collecting
-the `Endpoints` and using them directly) or if it would hand that choice off to
-some underlying implementation (e.g. `kube-proxy`, or a service mesh).
+the `Endpoints` and using them directly) or if it would hand that choice off
+to some underlying implementation (e.g. `kube-proxy`, or a service mesh).
 
 The purpose of this GEP is to propose API specification that makes it possible
 for Jane (the developer) to explicitly select how inbound traffic to her
