@@ -27,29 +27,22 @@ to explicitly select how inbound traffic to an application will be routed.
 
 ## Goals
 
-- Describe how Jane, Julian, etc. can *explicitly* select how traffic coming
-  into the cluster should be routed to workload backends. (Currently, each
-  implementation handles this in its own way, which may include a way to
-  explicitly choose between routing modes, but may not. We want the Gateway
-  API to provide a standardized mechanism for making this choice.)
+- Provide a Gateway API standardized mechanism for _explicitly_ selecting how
+  ingress traffic should be routed to workload backends.
+- Help provide official guidance on which roles are at play for route method
+  selection and how those roles apply.
 
-- ?? should we have a goal around separation of concerns between Jane & Julian
-  & Jasmine?
+## TODO
 
-- ?? When, if ever, should Jane (need to) care about whether or not her
-  routing is going to go through a mesh?
+The following are concerns or issues that we want to see resolved as we move
+forward with this GEP, _prior_ to graduating beyond `Provisional` status:
 
-  - Flynn: I would argue that the Correct Answer™ is "never", but... it's a
-    lovely question -- or, at least, Jane shouldn't always need to be aware.
-    She might _choose_ to be aware in some cases...
-
-  - Shane: Might we need to add some optionality to which role goes with which
-    functionality?
-
-- Shane: open question in my head right now: is it reasonable to have an
-  officially-sanctioned spec for this kind of policy that can both be
-  associated with an xRoute and as a policy attachment that can be associated
-  with GatewayClass, Gateway, xRoute, etc.?
+- Decide whether Jane (the developer) should ever specifically care about
+  whether or not her applications are being routed through a mesh, and decide
+  if we want some kind of _flexibility_ in roles to be at play here so as to
+  better serve different use cases.
+- Decide whether we're trying to do this at the route level only, or if we
+  want to have this apply at the `GatewayClass` or `Gateway` levels.
 
 ## References
 
