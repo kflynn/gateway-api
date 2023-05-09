@@ -51,25 +51,11 @@ to explicitly select how inbound traffic to an application will be routed.
   associated with an xRoute and as a policy attachment that can be associated
   with GatewayClass, Gateway, xRoute, etc.?
 
-## Introduction
-
-(Can link to external doc -- but we should bias towards copying
-the content into the GEP as online documents are easier to lose
--- e.g. owner messes up the permissions, accidental deletion)
-
-## API
-
-(... details, can point to PR with changes)
-
-## Alternatives
-
-(List other design alternatives and why we did not go in that
-direction)
-
 ## References
 
 This concept was [briefly touched on][993] in an experimental PR (that
-ultimately ended up being closed), due to a use case at Kong which is currently
-handled via annotation.
+ultimately ended up being closed), due to a use case in [Kong's ingress
+controller][kic] which is currently handled via annotation.
 
 [993]:https://github.com/kubernetes-sigs/gateway-api/pull/993#issuecomment-1013321918
+[kic]:https://github.com/kong/kubernetes-ingress-controller
