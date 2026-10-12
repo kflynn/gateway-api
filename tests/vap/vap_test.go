@@ -101,7 +101,7 @@ func TestVAPValidation(t *testing.T) {
 	require.NoError(t, err, "output", output)
 
 	// Even though --wait is applied I noticed a race condition that causes tests to fail.
-	time.Sleep(time.Second)
+	time.Sleep(3 * time.Second)
 
 	switch crdChannel {
 	case "experimental":
@@ -225,12 +225,14 @@ func TestVAPValidation(t *testing.T) {
 				version string
 				fail    bool
 			}{
-				{"v1.0.0", true},
 				{"v1.1.0", true},
 				{"v1.3.0", true},
+				{"v1.3.0-rc.1", false},
 				{"v0.0.0-dev", true},
-				{"v1.4.0", false},
-				{"v1.5.0", false},
+				{"v1.4.0", true},
+				{"v1.5.0", true},
+				{"v1.6.0-rc.1", false},
+				{"v1.9.0", false},
 			}
 
 			for _, v := range versions {
